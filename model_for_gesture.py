@@ -52,7 +52,7 @@ def segment_hand(frame, threshold=25):
         return (thresholded, hand_segment_max_cont)
 
 cam = cv2.VideoCapture(0)
-num_frames =0
+num_frames = 0
 while True:
     ret, frame = cam.read()
 

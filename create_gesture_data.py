@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import sys
 
 background = None
 accumulated_weight = 0.5
@@ -44,7 +45,7 @@ def segment_hand(frame, threshold=25):
 cam = cv2.VideoCapture(0)
 
 num_frames = 0
-element = 3
+element = sys.argv[1]
 num_imgs_taken = 0
 
 while True:
@@ -109,13 +110,13 @@ while True:
             cv2.imshow("Thresholded Hand Image", thresholded)
             if num_imgs_taken <= 300:
                 # cv2.imwrite(r"D:\\gesture\\train\\"+str(element)+"\\" + str(num_imgs_taken+300) + '.jpg', thresholded)
-                cv2.imwrite(r"gesture\\train\\" + str(element) + r"\\" + str(num_imgs_taken) + '.jpg', thresholded)
-            if num_imgs_taken <= 350:
+                cv2.imwrite(r"gesture\\train\\" + str(element).zfill(10) + r"\\" + str(num_imgs_taken) + '.jpg', thresholded)
+            elif num_imgs_taken <= 350:
                 # cv2.imwrite(r"D:\\gesture\\train\\"+str(element)+"\\" + str(num_imgs_taken+300) + '.jpg', thresholded)
-                cv2.imwrite(r"gesture\\test\\" + str(element) + r"\\" + str(num_imgs_taken-301) + '.jpg', thresholded)
+                cv2.imwrite(r"gesture\\test\\" + str(element).zfill(10) + r"\\" + str(num_imgs_taken-301) + '.jpg', thresholded)
             else:
                 break
-            num_imgs_taken +=1
+            num_imgs_taken += 1
         else:
             cv2.putText(frame_copy, 'No hand detected...', (200, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2)
 

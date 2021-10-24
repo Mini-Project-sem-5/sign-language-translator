@@ -3,6 +3,15 @@ import cv2
 import keras
 from keras.preprocessing.image import ImageDataGenerator
 import tensorflow as tf
+import json
+
+
+def keystoint(x):
+    return {int(k): v for k, v in x}
+
+
+with open('gestures.json', 'r') as fp:
+    data = json.load(fp, object_pairs_hook=keystoint)
 
 model = keras.models.load_model(r"best_model_dataflair3.h5")
 
@@ -13,12 +22,10 @@ ROI_top = 100
 ROI_bottom = 300
 ROI_right = 150
 ROI_left = 350
-word_dict = {0:'One',1:'Ten',2:'Two',3:'Three',4:'Four',5:'Five',6:'Six',7:'Seven',8:'Eight',9:'Nine'}
-
+word_dict = data
 
 
 def cal_accum_avg(frame, accumulated_weight):
-
     global background
     
     if background is None:

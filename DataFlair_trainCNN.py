@@ -13,13 +13,22 @@ import cv2
 from tensorflow.keras.callbacks import ReduceLROnPlateau
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 import matplotlib.pyplot as plt
+import sys
+import json
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+
+def keystoint(x):
+    return {int(k): v for k, v in x}
+
+
+with open('gestures.json', 'r') as fp:
+    data = json.load(fp, object_pairs_hook=keystoint)
 
 train_path = r'gesture\train'
 test_path = r'gesture\test'
 
-train_batches = ImageDataGenerator(preprocessing_function=tf.keras.applications.vgg16.preprocess_input).flow_from_directory(directory=train_path, target_size=(64,64), class_mode='categorical', batch_size=10,shuffle=True)
+train_batches = ImageDataGenerator(preprocessing_function=tf.keras.applications.vgg16.preprocess_input).flow_from_directory(directory=train_path, target_size=(64,64), class_mode='categorical', batch_size=10, shuffle=True)
 test_batches = ImageDataGenerator(preprocessing_function=tf.keras.applications.vgg16.preprocess_input).flow_from_directory(directory=test_path, target_size=(64,64), class_mode='categorical', batch_size=10, shuffle=True)
 
 imgs, labels = next(train_batches)
@@ -59,7 +68,7 @@ model.add(Dense(128,activation ="relu"))
 #model.add(Dropout(0.2))
 model.add(Dense(128,activation ="relu"))
 #model.add(Dropout(0.3))
-model.add(Dense(10,activation ="softmax"))
+model.add(Dense(int(sys.argv[1]),activation ="softmax"))
 
 
 # In[23]:
@@ -76,7 +85,7 @@ reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr
 early_stop = EarlyStopping(monitor='val_loss', min_delta=0, patience=2, verbose=0, mode='auto')
 
 
-history2 = model.fit(train_batches, epochs=10, callbacks=[reduce_lr, early_stop],  validation_data = test_batches)#, checkpoint])
+history2 = model.fit(train_batches, epochs=10, callbacks=[reduce_lr, early_stop], validation_data=test_batches)#, checkpoint])
 imgs, labels = next(train_batches) # For getting next batch of imgs...
 
 imgs, labels = next(test_batches) # For getting next batch of imgs...
@@ -103,7 +112,7 @@ scores #[loss, accuracy] on test data...
 model.metrics_names
 
 
-word_dict = {0:'One',1:'Ten',2:'Two',3:'Three',4:'Four',5:'Five',6:'Six',7:'Seven',8:'Eight',9:'Nine'}
+word_dict = data
 
 predictions = model.predict(imgs, verbose=0)
 print("predictions on a small set of test data--")

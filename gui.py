@@ -25,6 +25,8 @@ def hellocallback():
     data[len(data)] = word
     with open('gestures.json', 'w', encoding='utf-8') as jsonf:
         jsonf.write(json.dumps(data, indent=4))
+    with open('gesturesb.json', 'w', encoding='utf-8') as jsonb:
+        jsonb.write("score=["+json.dumps(data, indent=4)+"];")
     os.system("py DataFlair_trainCNN.py " + str(len(data)))
 
 

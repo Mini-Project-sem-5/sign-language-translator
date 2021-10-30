@@ -56,6 +56,10 @@ def function3():
     os.system("py model_for_gesture.py")
 
 
+def function4():
+    webbrowser.open_new_tab('gdetails.html')
+
+
 def function6():
     root.destroy()
 
@@ -76,7 +80,7 @@ Button(root, text="Gesture Translator", font=('times new roman', 20), bg="#0D47A
        command=function3).grid(row=5, columnspan=2, sticky=N + E + W + S, padx=5, pady=5)
 
 # creating attendance button
-Button(root, text="Gesture Details", font=('times new roman', 20), bg="#0D47A1", fg="white", command=None).grid(
+Button(root, text="Gesture Details", font=('times new roman', 20), bg="#0D47A1", fg="white", command=function4).grid(
     row=6, columnspan=2, sticky=N + E + W + S, padx=5, pady=5)
 
 Button(root, text="Exit", font=('times new roman', 20), bg="maroon", fg="white", command=function6).grid(row=9,

@@ -108,6 +108,8 @@ while True:
             
             # Displaying the thresholded image
             cv2.imshow("Thresholded Hand Image", thresholded)
+            if num_imgs_taken == 100:
+                cv2.imwrite(r"images\\" + str(int(sys.argv[1]) - 1) + '.png', thresholded)
             if num_imgs_taken <= 300:
                 # cv2.imwrite(r"D:\\gesture\\train\\"+str(element)+"\\" + str(num_imgs_taken+300) + '.jpg', thresholded)
                 cv2.imwrite(r"gesture\\train\\" + str(element).zfill(10) + r"\\" + str(num_imgs_taken) + '.jpg', thresholded)
